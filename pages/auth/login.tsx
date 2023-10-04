@@ -12,13 +12,10 @@ interface LoginFormProps {
 
 export default function Login() {
   const router = useRouter();
-  // const regexPassowrd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
-
   const schema = Yup.object().shape({
     email: Yup.string()
       .required("Insert your email")
       .email("Please insert valid email"),
-    // .matches(regexEmail, "Please insert valid email"),
     password: Yup.string().required("Insert your password"),
   });
   const handleLogin = () => {
@@ -28,8 +25,8 @@ export default function Login() {
     initialValues: { email: "", password: "" },
     onSubmit: handleLogin,
     validationSchema: schema,
-    // validateOnChange: true,
   });
+
   return (
     <div className={styles["wrapper"]}>
       <div className="w-50 bg-danger">
