@@ -1,4 +1,3 @@
-import { type } from "os";
 import React from "react";
 
 export interface InputComponentsProps {
@@ -18,3 +17,5 @@ export interface ButtonComponentProps {
   style?: React.CSSProperties;
   type: "button" | "submit";
 }
+
+export interface TopBarComponentProps {}
