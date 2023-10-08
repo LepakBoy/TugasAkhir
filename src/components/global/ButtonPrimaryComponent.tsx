@@ -5,7 +5,11 @@ export default function ButtonPrimaryComponent(props: ButtonComponentProps) {
     <>
       <button
         className={styles["button-primary_component"]}
-        style={props.style}
+        style={{
+          ...props.style,
+          backgroundColor: props.backGroundColor || " #ffba33",
+          color: props.textColor || "#6a4029",
+        }}
         onClick={props.onClick}
       >
         {props.label}

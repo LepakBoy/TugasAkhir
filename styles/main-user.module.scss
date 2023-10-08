@@ -16,7 +16,7 @@ $titleButton: #6a4029;
 .menu-category_image {
   width: 136px;
   height: 136px;
-  border-radius: 6px;
+  // border-radius: 6px;
   margin-bottom: 12px;
 }
 .menu-category_name {
@@ -39,9 +39,15 @@ $titleButton: #6a4029;
 }
 
 .menu-category_item {
+  padding: 8px;
+  // min-height: 254px;
   font-size: 18px;
   font-weight: 600;
   color: $titleColor;
+  // border-radius: 12px;
+  border: 1px solid rgba(233, 233, 233, 0.904);
+  // border: 1px solid red;
+  // box-shadow: 0px 0px 12px;
 }
 
 .menu-detail_container {

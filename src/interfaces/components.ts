@@ -16,6 +16,8 @@ export interface ButtonComponentProps {
   onClick?: () => void;
   style?: React.CSSProperties;
   type: "button" | "submit";
+  backGroundColor?: string;
+  textColor?: string;
 }
 
 export interface TopBarComponentProps {

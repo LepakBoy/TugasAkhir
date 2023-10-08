@@ -8,6 +8,8 @@ import { useState } from "react";
 export default function MainUser() {
   const [selectedItem, setSelectedItem] = useState("");
 
+  const selectedImage = selectedItem ? "french-fries.jpg" : "no-image.jpg";
+
   return (
     <>
       <TopBar option head />
@@ -19,47 +21,72 @@ export default function MainUser() {
           <div className={`${styles["menu-detail_wrapper"]}`}>
             <img
               className={`${styles["menu-detail_image"]} mx-auto mb-2`}
-              src="../../../images/french-fries.jpg"
+              src={`../../../images/${selectedImage}`}
               alt="detail-menu"
             />
             <span>{selectedItem || "No selected item"}</span>
-            <p className={`${styles["menu-detail-parapgraph"]}`}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book
-            </p>
-            <div
-              className={`${styles["menu-detail_qty"]} d-flex justify-content-center`}
-            >
-              <button
-                className={`${styles["menu-detail_qty-btn"]}`}
-                style={{ width: "32px" }}
-              >
-                -
-              </button>
-              <input
-                type="text"
-                value={"2"}
-                style={{
-                  width: "32px",
-                  textAlign: "center",
-                  marginRight: "32px",
-                  marginLeft: "32px",
-                }}
-              />
-              <button
-                className={`${styles["menu-detail_qty-btn"]}`}
-                style={{ width: "32px" }}
-              >
-                +
-              </button>
-            </div>
-            <ButtonPrimaryComponent
-              label="Add to cart"
-              type="button"
-              style={{ width: "168px", marginTop: "16px" }}
-            />
+            {selectedItem && (
+              <>
+                <p className={`${styles["menu-detail-parapgraph"]}`}>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industrys
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book
+                </p>
+                <div
+                  className={`${styles["menu-detail_qty"]} d-flex justify-content-center`}
+                >
+                  <button
+                    className={`${styles["menu-detail_qty-btn"]}`}
+                    style={{ width: "32px" }}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text"
+                    value={"2"}
+                    style={{
+                      width: "32px",
+                      textAlign: "center",
+                      marginRight: "32px",
+                      marginLeft: "32px",
+                    }}
+                  />
+                  <button
+                    className={`${styles["menu-detail_qty-btn"]}`}
+                    style={{ width: "32px" }}
+                  >
+                    +
+                  </button>
+                </div>
+                <div>
+                  <ButtonPrimaryComponent
+                    label="Add to cart"
+                    type="button"
+                    style={{
+                      width: "168px",
+                      marginTop: "16px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  />
+                  <ButtonPrimaryComponent
+                    onClick={() => setSelectedItem("")}
+                    label="Remove"
+                    type="button"
+                    backGroundColor="#cfcfcf"
+                    textColor="#6e6464"
+                    style={{
+                      width: "168px",
+                      marginTop: "10px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="col-md-8">
@@ -81,13 +108,18 @@ export default function MainUser() {
                     src="../../../images/burger.jpg"
                     alt="menu"
                   />
-                  <span className="d-block mb-1">{x.name}</span>
-                  <button
-                    onClick={() => setSelectedItem(x.name)}
-                    className={`${styles["menu-category_button-select"]}`}
+                  <div
+                    className="d-flex flex-column justify-content-between align-items-center"
+                    style={{ minHeight: "92px" }}
                   >
-                    Select
-                  </button>
+                    <span className="d-block mb-1">{x.name}</span>
+                    <button
+                      onClick={() => setSelectedItem(x.name)}
+                      className={`${styles["menu-category_button-select"]}`}
+                    >
+                      Select
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

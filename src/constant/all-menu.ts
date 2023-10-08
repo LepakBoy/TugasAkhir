@@ -51,4 +51,28 @@ export const allMenu = [
     name: "Ketoprak dengan saus mentega",
     category: "food",
   },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
+  {
+    name: "Ketoprak dengan saus mentega",
+    category: "food",
+  },
 ];
