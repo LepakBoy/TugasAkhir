@@ -18,4 +18,7 @@ export interface ButtonComponentProps {
   type: "button" | "submit";
 }
 
-export interface TopBarComponentProps {}
+export interface TopBarComponentProps {
+  option: boolean;
+  head: boolean;
+}
