@@ -25,7 +25,8 @@ export default function TopBar(props: TopBarComponentProps) {
         </div>
         {props.option && (
           <div className={`${styles["top-bar_options"]}`}>
-            <button className="p-1 mx-3 bg-transparent border-0">
+            <button className="p-1 mx-3 bg-transparent border-0 position-relative">
+              <div className={`${styles["number-notification"]}`}>3</div>
               <BiMessageDetail fontSize={24} />
             </button>
             <button className="p-1 mx-3 bg-transparent border-0">
