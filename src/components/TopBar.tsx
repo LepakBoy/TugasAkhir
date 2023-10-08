@@ -3,8 +3,10 @@ import { TopBarComponentProps } from "../interfaces/components";
 import { BiMessageDetail } from "react-icons/bi";
 import { VscAccount } from "react-icons/vsc";
 import { FaBowlFood } from "react-icons/fa6";
+import { useRouter } from "next/router";
 
 export default function TopBar(props: TopBarComponentProps) {
+  const router = useRouter();
   return (
     <>
       <div
@@ -19,14 +21,33 @@ export default function TopBar(props: TopBarComponentProps) {
           </div>
         )}
         <div className={`${styles["top-bar_menu"]}`}>
-          <span className="cursor-pointer">Products</span>
-          <span className="cursor-pointer">Your cart</span>
+          <span
+            onClick={() => router.push("/main/user")} //should based on user role
+            className="cursor-pointer"
+          >
+            Products
+          </span>
+          <span
+            onClick={() => router.push("/cart")}
+            className="cursor-pointer position-relative"
+          >
+            {props.cartNumber > 0 && (
+              <div className={`${styles["number-notification"]}`}>
+                {props.cartNumber}
+              </div>
+            )}
+            Your cart
+          </span>
           <span className="cursor-pointer">Order history</span>
         </div>
         {props.option && (
           <div className={`${styles["top-bar_options"]}`}>
             <button className="p-1 mx-3 bg-transparent border-0 position-relative">
-              <div className={`${styles["number-notification"]}`}>3</div>
+              {props.notificationNumber > 0 && (
+                <div className={`${styles["number-notification"]}`}>
+                  {props.notificationNumber}
+                </div>
+              )}
               <BiMessageDetail fontSize={24} />
             </button>
             <button className="p-1 mx-3 bg-transparent border-0">

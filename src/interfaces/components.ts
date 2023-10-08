@@ -23,4 +23,6 @@ export interface ButtonComponentProps {
 export interface TopBarComponentProps {
   option: boolean;
   head: boolean;
+  notificationNumber?: number;
+  cartNumber?: number;
 }
