@@ -26,3 +26,5 @@ export interface TopBarComponentProps {
   notificationNumber?: number;
   cartNumber?: number;
 }
+
+export interface CartItemProps {}
