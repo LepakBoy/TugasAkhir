@@ -27,8 +27,12 @@ export default function MainUser() {
         ...cartOrder,
         totalPrice: total,
       });
-      setCartList([cartOrder]);
-      localStorage.setItem("cart-order", JSON.stringify([cartOrder]));
+      setCartList([...cartList, cartOrder]);
+      localStorage.setItem(
+        "cart-order",
+        JSON.stringify([...cartList, cartOrder])
+      );
+
       setSelectedItem(defaultMenu);
     }
   };
@@ -39,7 +43,7 @@ export default function MainUser() {
 
   return (
     <>
-      <TopBar option head cartNumber={cartList.length} />
+      <TopBar option head cartNumber={cartList?.length} />
       <div className="row w-100 border-top">
         {/* <div className=""> */}
         <div
@@ -77,7 +81,7 @@ export default function MainUser() {
                     // onChange={(e) => setCartOder({...cartOrder, qty: e.target.value}) }
                     name="qty"
                     type="text"
-                    value={cartOrder.qty}
+                    value={cartOrder.qty || 0}
                     style={{
                       width: "32px",
                       textAlign: "center",
@@ -183,6 +187,7 @@ export default function MainUser() {
                             name: x.name,
                             idMenu: x.id,
                             totalPrice: x.price,
+                            id: crypto.randomUUID(),
                           });
                         }}
                         className={`${styles["menu-category_button-select"]}`}
@@ -201,3 +206,31 @@ export default function MainUser() {
     </>
   );
 }
+
+// if (
+//   cartList.filter((x) => {
+//     return x.idMenu === idMenu;
+//   }).length > 0
+// ) {
+//   alert("sama");
+//   setCartOder({
+//     ...cartOrder,
+//     totalPrice: total,
+//   });
+//   setCartList([...cartList, cartOrder]);
+//   localStorage.setItem(
+//     "cart-order",
+//     JSON.stringify([...cartList, cartOrder])
+//   );
+// } else {
+//   alert("beda");
+//   setCartOder({
+//     ...cartOrder,
+//     totalPrice: total,
+//   });
+//   setCartList([...cartList, cartOrder]);
+//   localStorage.setItem(
+//     "cart-order",
+//     JSON.stringify([...cartList, cartOrder])
+//   );
+// }

@@ -29,5 +29,8 @@ export interface TopBarComponentProps {
 
 export interface CartItemProps {
   idMenu: string;
+  menu: string;
+  qty: number;
+  totalPrice: number;
   handleDeleteCart: (idMenu: string) => void;
 }

@@ -18,20 +18,17 @@ export default function CartItem(props: CartItemProps) {
             <div className="d-flex justify-content-between w-100">
               <div className="p-2">
                 <p className={`${styles["cart-item_name"]} mb-0`}>
-                  {"Menu selected item name selected item name name"}
+                  {props.menu}
                 </p>
-                <p className={`${styles["cart-item_price"]} mb-0 d-inline`}>
-                  {"Rp 20000"}
-                </p>
-                <p className={`${styles["cart-item_qty"]} mb-0 d-inline ms-2`}>
-                  {"X2"}
+                <p className={`${styles["cart-item_qty"]} mb-0 d-inline`}>
+                  {`x${props.qty}`}
                 </p>
               </div>
               <div
                 className={`${styles["cart-item_total_wrapper"]} p-2 d-flex align-items-center justify-content-end`}
               >
                 <p className={`${styles["cart-item_total"]} m-0`}>
-                  {"Rp 52000"}
+                  {`Rp ${props.totalPrice}`}
                 </p>
               </div>
             </div>
