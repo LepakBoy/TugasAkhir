@@ -17,11 +17,16 @@ export default function MainUser() {
     ...defaultCartOrder,
     totalPrice: selectedItem.price,
   });
+  const [allMenuList, setAllMenuList] = useState(allMenu);
 
   const [cartList, setCartList] = useState([]);
   const selectedImage = selectedItem.name ? "french-fries.jpg" : "no-image.jpg";
 
-  const handleAddToCart = (total: number, idMenu: string) => {
+  const handleFilterByCategory = (cat: string) => {
+    setAllMenuList(allMenu.filter((x) => x.category === cat));
+  };
+
+  const handleAddToCart = (total: number) => {
     if (cartOrder.idMenu && selectedItem.id) {
       setCartOder({
         ...cartOrder,
@@ -78,7 +83,6 @@ export default function MainUser() {
                     -
                   </button>
                   <input
-                    // onChange={(e) => setCartOder({...cartOrder, qty: e.target.value}) }
                     name="qty"
                     type="text"
                     value={cartOrder.qty || 0}
@@ -109,10 +113,7 @@ export default function MainUser() {
                   }`}</span>
                   <ButtonPrimaryComponent
                     onClick={() =>
-                      handleAddToCart(
-                        selectedItem.price * cartOrder.qty,
-                        selectedItem.id
-                      )
+                      handleAddToCart(selectedItem.price * cartOrder.qty)
                     }
                     label="Add to cart"
                     type="button"
@@ -150,12 +151,17 @@ export default function MainUser() {
           >
             {topBarMainMenuList.map((x, i: number) => (
               <div className="p-1" key={i}>
-                <span className="cursor-pointer">{x.text}</span>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => handleFilterByCategory(x.value)}
+                >
+                  {x.text}
+                </span>
               </div>
             ))}
           </div>
           <div className={`${styles["menu-category_wrapper"]} row`}>
-            {allMenu.map((x, i: number) => (
+            {allMenuList.map((x, i: number) => (
               <div className="col-md-3 mb-4 p-1" key={i}>
                 <div className={`${styles["menu-category_item"]} text-center`}>
                   <img
