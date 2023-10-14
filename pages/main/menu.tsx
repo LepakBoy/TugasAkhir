@@ -3,7 +3,7 @@ import { topBarMainMenuList } from "../../src/constant/topBar-menu";
 import styles from "../../styles/main-user.module.scss";
 import { allMenu } from "../../src/constant/all-menu";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AddToCardOrderProps,
   MenuProps,
@@ -13,18 +13,33 @@ import {
 
 export default function MainUser() {
   const [selectedItem, setSelectedItem] = useState<MenuProps>(defaultMenu);
-  const [cartOrder, setCartOder] =
-    useState<AddToCardOrderProps>(defaultCartOrder);
+  const [cartOrder, setCartOder] = useState<AddToCardOrderProps>({
+    ...defaultCartOrder,
+    totalPrice: selectedItem.price,
+  });
 
+  const [cartList, setCartList] = useState([]);
   const selectedImage = selectedItem.name ? "french-fries.jpg" : "no-image.jpg";
 
-  const handleAddToCart = () => {
-    return;
+  const handleAddToCart = (total: number, idMenu: string) => {
+    if (cartOrder.idMenu && selectedItem.id) {
+      setCartOder({
+        ...cartOrder,
+        totalPrice: total,
+      });
+      setCartList([cartOrder]);
+      localStorage.setItem("cart-order", JSON.stringify([cartOrder]));
+      setSelectedItem(defaultMenu);
+    }
   };
+
+  useEffect(() => {
+    setCartList(JSON.parse(localStorage.getItem("cart-order")));
+  }, []);
 
   return (
     <>
-      <TopBar option head />
+      <TopBar option head cartNumber={cartList.length} />
       <div className="row w-100 border-top">
         {/* <div className=""> */}
         <div
@@ -47,7 +62,11 @@ export default function MainUser() {
                 >
                   <button
                     onClick={() =>
-                      setCartOder({ ...cartOrder, qty: cartOrder.qty - 1 })
+                      setCartOder({
+                        ...cartOrder,
+                        qty: cartOrder.qty - 1,
+                        totalPrice: cartOrder.totalPrice - selectedItem.price,
+                      })
                     }
                     className={`${styles["menu-detail_qty-btn"]}`}
                     style={{ width: "32px" }}
@@ -68,7 +87,11 @@ export default function MainUser() {
                   />
                   <button
                     onClick={() =>
-                      setCartOder({ ...cartOrder, qty: cartOrder.qty + 1 })
+                      setCartOder({
+                        ...cartOrder,
+                        qty: cartOrder.qty + 1,
+                        totalPrice: cartOrder.totalPrice + selectedItem.price,
+                      })
                     }
                     className={`${styles["menu-detail_qty-btn"]}`}
                     style={{ width: "32px" }}
@@ -81,6 +104,12 @@ export default function MainUser() {
                     selectedItem.price * cartOrder.qty
                   }`}</span>
                   <ButtonPrimaryComponent
+                    onClick={() =>
+                      handleAddToCart(
+                        selectedItem.price * cartOrder.qty,
+                        selectedItem.id
+                      )
+                    }
                     label="Add to cart"
                     type="button"
                     style={{
@@ -91,7 +120,10 @@ export default function MainUser() {
                     }}
                   />
                   <ButtonPrimaryComponent
-                    onClick={() => setSelectedItem(defaultMenu)}
+                    onClick={() => {
+                      setSelectedItem(defaultMenu);
+                      setCartOder(defaultCartOrder);
+                    }}
                     label="Remove"
                     type="button"
                     backGroundColor="#cfcfcf"
@@ -139,12 +171,19 @@ export default function MainUser() {
                       <button
                         onClick={() => {
                           setSelectedItem({
+                            id: x.id,
                             name: x.name,
                             price: x.price,
                             category: x.category,
                             description: x.description,
                           });
-                          setCartOder({ ...cartOrder, qty: 1 });
+                          setCartOder({
+                            ...cartOrder,
+                            qty: 1,
+                            name: x.name,
+                            idMenu: x.id,
+                            totalPrice: x.price,
+                          });
                         }}
                         className={`${styles["menu-category_button-select"]}`}
                       >

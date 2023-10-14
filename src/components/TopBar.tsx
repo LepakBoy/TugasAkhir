@@ -22,7 +22,7 @@ export default function TopBar(props: TopBarComponentProps) {
         )}
         <div className={`${styles["top-bar_menu"]}`}>
           <span
-            onClick={() => router.push("/main/user")} //should based on user role
+            onClick={() => router.push("/main/menu")} //should based on user role
             className="cursor-pointer"
           >
             Products
@@ -38,7 +38,12 @@ export default function TopBar(props: TopBarComponentProps) {
             )}
             Your cart
           </span>
-          <span className="cursor-pointer">Order history</span>
+          <span
+            className="cursor-pointer"
+            onClick={() => router.push("/main/kitchen-order")}
+          >
+            Order history
+          </span>
         </div>
         {props.option && (
           <div className={`${styles["top-bar_options"]}`}>

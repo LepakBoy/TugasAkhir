@@ -2,12 +2,25 @@ import CartItem from "../src/components/CartItem";
 import TopBar from "../src/components/TopBar";
 import styles from "../styles/cart.module.scss";
 import ButtonComponent from "../src/components/global/ButtonPrimaryComponent";
-import ButtonPrimaryComponent from "../src/components/global/ButtonPrimaryComponent";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
+  const [cartList, setCartList] = useState([]);
+  const handleDeleteCart = (idCart: string) => {
+    setCartList(cartList.filter((x) => x.idMenu !== idCart));
+    localStorage.setItem(
+      "cart-order",
+      JSON.stringify(cartList.filter((x) => x.idMenu !== idCart))
+    );
+  };
+
+  useEffect(() => {
+    setCartList(JSON.parse(localStorage.getItem("cart-order")));
+  }, []);
+
   return (
     <>
-      <TopBar option head />
+      <TopBar option head cartNumber={cartList.length} />
       <div className="row w-100 border-top" style={{ height: "100%" }}>
         <div
           className={`${styles["cart-list_container"]} col-md-6 mx-auto border-end border-start`}
@@ -18,13 +31,20 @@ export default function Cart() {
                 Order summary
               </span>
             </div>
-            {/* cart component */}
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
+
+            {cartList && cartList.length > 0 ? (
+              <>
+                {cartList.map((cart: any, index: number) => (
+                  <CartItem
+                    idMenu={cart.idMenu}
+                    key={index}
+                    handleDeleteCart={handleDeleteCart}
+                  />
+                ))}
+              </>
+            ) : (
+              <span>No cart</span>
+            )}
           </div>
           <div className="px-5 text-end">
             <p className={`${styles["cart-item_total"]} px-5`}>

@@ -1,7 +1,8 @@
 import { RiDeleteBin5Line } from "react-icons/ri";
 import styles from "../../styles/cart.module.scss";
+import { CartItemProps } from "../interfaces/components";
 
-export default function CartItem() {
+export default function CartItem(props: CartItemProps) {
   return (
     <>
       <div className="cart-container d-flex mb-3">
@@ -37,7 +38,10 @@ export default function CartItem() {
           </div>
         </div>
         <div className="d-flex align-items-center p-2">
-          <button className="bg-transparent border-0">
+          <button
+            className="bg-transparent border-0"
+            onClick={() => props.handleDeleteCart(props.idMenu)}
+          >
             <RiDeleteBin5Line fontSize={32} color="#6a4029" />
           </button>
         </div>
