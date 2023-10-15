@@ -43,14 +43,13 @@ export default function MainUser() {
   };
 
   useEffect(() => {
-    setCartList(JSON.parse(localStorage.getItem("cart-order")));
+    setCartList(JSON.parse(localStorage.getItem("cart-order")) || []);
   }, []);
 
   return (
     <>
-      <TopBar option head cartNumber={cartList?.length} />
+      <TopBar option head />
       <div className="row w-100 border-top">
-        {/* <div className=""> */}
         <div
           className={`${styles["menu-detail_container"]} col-md-4 border-end`}
         >
@@ -207,7 +206,6 @@ export default function MainUser() {
             ))}
           </div>
         </div>
-        {/* </div> */}
       </div>
     </>
   );

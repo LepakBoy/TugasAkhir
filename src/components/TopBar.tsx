@@ -4,9 +4,28 @@ import { BiMessageDetail } from "react-icons/bi";
 import { VscAccount } from "react-icons/vsc";
 import { FaBowlFood } from "react-icons/fa6";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function TopBar(props: TopBarComponentProps) {
   const router = useRouter();
+  const [cartList, setCartList] = useState([]);
+
+  // useEffect(() => {
+  //   setCartList(JSON.parse(localStorage.getItem("cart-order")));
+  // }, []);
+
+  useEffect(() => {
+    const checkCartOrder = () => {
+      const item = localStorage.getItem("cart-order");
+      if (item) {
+        setCartList(JSON.parse(item));
+      }
+      window.addEventListener("storage", checkCartOrder);
+      return () => {
+        window.removeEventListener("storage", checkCartOrder);
+      };
+    };
+  }, []);
   return (
     <>
       <div
@@ -31,9 +50,9 @@ export default function TopBar(props: TopBarComponentProps) {
             onClick={() => router.push("/cart")}
             className="cursor-pointer position-relative"
           >
-            {props.cartNumber > 0 && (
+            {cartList?.length > 0 && (
               <div className={`${styles["number-notification"]}`}>
-                {props.cartNumber}
+                {cartList?.length}
               </div>
             )}
             Your cart

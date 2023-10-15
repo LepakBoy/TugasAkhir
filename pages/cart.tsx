@@ -15,12 +15,12 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    setCartList(JSON.parse(localStorage.getItem("cart-order")));
+    setCartList(JSON.parse(localStorage.getItem("cart-order")) || []);
   }, []);
 
   return (
     <>
-      <TopBar option head cartNumber={cartList?.length} />
+      <TopBar option head />
       <div className="row w-100 border-top" style={{ height: "100%" }}>
         <div
           className={`${styles["cart-list_container"]} col-md-6 mx-auto border-end border-start`}

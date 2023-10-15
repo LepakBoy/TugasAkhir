@@ -24,7 +24,6 @@ export interface TopBarComponentProps {
   option: boolean;
   head: boolean;
   notificationNumber?: number;
-  cartNumber?: number;
 }
 
 export interface CartItemProps {
@@ -33,4 +32,9 @@ export interface CartItemProps {
   qty: number;
   totalPrice: number;
   handleDeleteCart: (idMenu: string) => void;
+}
+
+export interface AccrodionComponentProps {
+  child: React.ReactNode;
+  title: string;
 }

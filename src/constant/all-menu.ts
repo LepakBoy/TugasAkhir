@@ -1,3 +1,20 @@
+export const dummyListOrder = [
+  {
+    id: "order-001",
+    idMenu: "fd-001",
+    name: "gado-gado ",
+    qty: 2,
+    status: "ACCEPT",
+  },
+  {
+    id: "order-002",
+    idMenu: "fd-002",
+    name: "indomie goreng kasih kuah emang enak ",
+    qty: 4,
+    status: "PLACED",
+  },
+];
+
 export const allMenu = [
   {
     id: "fd-001",
