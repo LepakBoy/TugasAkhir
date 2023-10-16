@@ -14,6 +14,12 @@ export default function Cart() {
     );
   };
 
+  const totalToPay = cartList.reduce((x, y) => {
+    return x + y.totalPrice;
+  }, 0);
+
+  console.log(totalToPay, "to pay");
+
   useEffect(() => {
     setCartList(JSON.parse(localStorage.getItem("cart-order")) || []);
   }, []);
@@ -45,8 +51,8 @@ export default function Cart() {
                   />
                 ))}
                 <div className="px-5 text-end">
-                  <p className={`${styles["cart-item_total"]} px-5`}>
-                    {"Total : Rp 100000"}
+                  <p className={`${styles["cart-item_total"]}`}>
+                    {`Total : ${totalToPay}`}
                   </p>
                 </div>
                 <div className="d-flex justify-content-center py-2 mb-4">
