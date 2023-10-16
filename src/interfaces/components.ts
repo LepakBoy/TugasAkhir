@@ -37,4 +37,8 @@ export interface CartItemProps {
 export interface AccrodionComponentProps {
   child: React.ReactNode;
   title: string;
+  idParent: string;
+  dataTarget: string;
+  titleColor?: string;
+  headerStyle?: React.CSSProperties;
 }

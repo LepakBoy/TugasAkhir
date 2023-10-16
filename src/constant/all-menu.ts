@@ -4,15 +4,36 @@ export const dummyListOrder = [
     idMenu: "fd-001",
     name: "gado-gado ",
     qty: 2,
-    status: "ACCEPT",
+    status: "PLACED",
   },
   {
     id: "order-002",
     idMenu: "fd-002",
     name: "indomie goreng kasih kuah emang enak ",
     qty: 4,
-    status: "PLACED",
+    status: "IN PROGRESS",
   },
+  {
+    id: "order-003",
+    idMenu: "fd-002",
+    name: "indomie goreng kasih kuah emang enak ",
+    qty: 4,
+    status: "FINISHED",
+  },
+  // {
+  //   id: "order-004",
+  //   idMenu: "fd-002",
+  //   name: "indomie goreng kasih kuah emang enak ",
+  //   qty: 4,
+  //   status: "PLACED",
+  // },
+  // {
+  //   id: "order-005",
+  //   idMenu: "fd-002",
+  //   name: "indomie goreng kasih kuah emang enak ",
+  //   qty: 4,
+  //   status: "PLACED",
+  // },
 ];
 
 export const allMenu = [
