@@ -50,7 +50,7 @@ export default function TopBar(props: TopBarComponentProps) {
               </span>
               <span
                 className="cursor-pointer"
-                onClick={() => router.push("/kitchen/order-list")}
+                onClick={() => router.push("/main/order-history")}
               >
                 Order history
               </span>
