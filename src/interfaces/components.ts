@@ -24,6 +24,8 @@ export interface TopBarComponentProps {
   option: boolean;
   head: boolean;
   notificationNumber?: number;
+  role: "ADMIN" | "USER" | "KITCHEN";
+  ordeListNumber?: number;
 }
 
 export interface CartItemProps {

@@ -48,7 +48,7 @@ export default function MainUser() {
 
   return (
     <>
-      <TopBar option head />
+      <TopBar option head role="USER" />
       <div className="row w-100 border-top">
         <div
           className={`${styles["menu-detail_container"]} col-md-4 border-end`}

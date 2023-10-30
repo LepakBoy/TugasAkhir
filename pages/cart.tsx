@@ -26,7 +26,7 @@ export default function Cart() {
 
   return (
     <>
-      <TopBar option head />
+      <TopBar option head role="USER" />
       <div className="row w-100 border-top" style={{ height: "100%" }}>
         <div
           className={`${styles["cart-list_container"]} col-md-6 mx-auto border-end border-start`}

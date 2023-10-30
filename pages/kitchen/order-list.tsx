@@ -7,6 +7,8 @@ import { dummyListOrder } from "../../src/constant/all-menu";
 
 export default function MainKitchen() {
   const [listOrder, setListOrder] = useState(dummyListOrder);
+  const orderList = ["aa", "bb", "cc", "dd", "ee", "ff"];
+
   const handleInteractionOrder = (
     status: "ACCEPTED" | "FINISHED" | "IN PROGRESS",
     id: string
@@ -92,7 +94,7 @@ export default function MainKitchen() {
 
   return (
     <>
-      <TopBar option head />
+      <TopBar option head role="KITCHEN" ordeListNumber={orderList.length} />
       <div className="row w-100 border-top" style={{ height: "100%" }}>
         <div
           className={`${stylesCart["cart-list_container"]} col-md-6 mx-auto border-start border-end`}
