@@ -162,7 +162,26 @@ export default function MainUser() {
           <div className={`${styles["menu-category_wrapper"]} row`}>
             {allMenuList.map((x, i: number) => (
               <div className="col-md-3 mb-4 p-1" key={i}>
-                <div className={`${styles["menu-category_item"]} text-center`}>
+                <div
+                  className={`${styles["menu-category_item"]} text-center position-relative`}
+                >
+                  {!x.isAvailable && (
+                    <div
+                      className="position-absolute d-flex align-items-center justify-content-center"
+                      style={{
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "#a5a39d",
+                        opacity: 0.9,
+                        color: "red",
+                      }}
+                    >
+                      <span>This menu is unvailable</span>
+                    </div>
+                  )}
+
                   <img
                     className={`${styles["menu-category_image"]}`}
                     src="../../../images/burger.jpg"
@@ -185,6 +204,7 @@ export default function MainUser() {
                             price: x.price,
                             category: x.category,
                             description: x.description,
+                            isAvailable: x.isAvailable,
                           });
                           setCartOder({
                             ...cartOrder,
@@ -210,31 +230,3 @@ export default function MainUser() {
     </>
   );
 }
-
-// if (
-//   cartList.filter((x) => {
-//     return x.idMenu === idMenu;
-//   }).length > 0
-// ) {
-//   alert("sama");
-//   setCartOder({
-//     ...cartOrder,
-//     totalPrice: total,
-//   });
-//   setCartList([...cartList, cartOrder]);
-//   localStorage.setItem(
-//     "cart-order",
-//     JSON.stringify([...cartList, cartOrder])
-//   );
-// } else {
-//   alert("beda");
-//   setCartOder({
-//     ...cartOrder,
-//     totalPrice: total,
-//   });
-//   setCartList([...cartList, cartOrder]);
-//   localStorage.setItem(
-//     "cart-order",
-//     JSON.stringify([...cartList, cartOrder])
-//   );
-// }

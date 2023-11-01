@@ -31,7 +31,7 @@ export default function OpenClose() {
                   marginTop: "22px",
                 }}
                 type="button"
-                label={`${cantenStatus === "OPEN" ? "Open" : "Close"} it!`}
+                label={`${cantenStatus === "OPEN" ? "Close" : "Open"} it !`}
               />
             </div>
           </div>
