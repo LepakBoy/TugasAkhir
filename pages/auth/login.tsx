@@ -29,9 +29,14 @@ export default function Login() {
 
   return (
     <div className={styles["wrapper"]}>
-      <div className="w-50 bg-danger">
-        <></>
-      </div>
+      <div
+        className="w-50 bg-danger"
+        style={{
+          backgroundImage: `url(../../../images/login-page.jpg)`,
+          backgroundSize: "cover",
+          backgroundPositionY: "-91px",
+        }}
+      ></div>
       <div className={`${styles["login-form_area"]} w-50 `}>
         <div className={styles["login-form_wrapper"]}>
           <form onSubmit={formik.handleSubmit} noValidate>

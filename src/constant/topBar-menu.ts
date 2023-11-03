@@ -1,22 +1,22 @@
 export const topBarMainMenuList = [
   {
     text: "For you",
-    value: "forYou",
+    value: "FORYOU",
   },
   // {
-  //   value: "allProducts",
+  //   value: "ALLMENUS",
   //   text: "All products",
   // },
   {
-    value: "food",
+    value: "FOOD",
     text: "Foods",
   },
   {
-    value: "beverage",
+    value: "DRINKS",
     text: "Beverages",
   },
   {
-    value: "addOn",
+    value: "ADDON",
     text: "Add-on",
   },
 ];

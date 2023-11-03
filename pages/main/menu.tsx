@@ -18,26 +18,32 @@ export default function MainUser() {
   });
 
   const [allMenus, setAllMenus] = useState([]);
+  const [renderedMenus, setRenderedMenus] = useState(allMenus);
+  const [cartList, setCartList] = useState([]);
+  console.log(renderedMenus, "renrede");
 
   const getAllMenu = async () => {
+    // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
     const req = await fetch("http://localhost:8002/api/menu", {
       method: "GET",
     });
 
-    const res = await req.json();
-    setAllMenus(res.data);
-    // return res.data;
+    await req
+      .json()
+      .then((res) => {
+        setAllMenus(res.data);
+      })
+      .catch((err) => {
+        console.log(err, "erro");
+      });
   };
 
-  useEffect(() => {
-    getAllMenu();
-  }, []);
-
-  const [cartList, setCartList] = useState([]);
-
   const handleFilterByCategory = (cat: string) => {
-    // setAllMenuList(allMenu.filter((x) => x.category === cat));
-    setAllMenus(allMenus.filter((x) => x.category === cat.toUpperCase()));
+    if (cat === "FORYOU") {
+      alert("SAW algorithm implementation");
+      return;
+    }
+    setRenderedMenus(allMenus.filter((x) => x.category === cat.toUpperCase()));
   };
 
   const handleAddToCart = (total: number) => {
@@ -57,6 +63,17 @@ export default function MainUser() {
   };
 
   useEffect(() => {
+    if (allMenus.length) {
+      setRenderedMenus(
+        allMenus.filter((x) => {
+          return x.category === "FOOD";
+        })
+      );
+    }
+  }, [allMenus]);
+
+  useEffect(() => {
+    getAllMenu();
     setCartList(JSON.parse(localStorage.getItem("cart-order")) || []);
   }, []);
 
@@ -183,72 +200,78 @@ export default function MainUser() {
             ))}
           </div>
           <div className={`${styles["menu-category_wrapper"]} row`}>
-            {allMenus.map((x, i: number) => (
-              <div className="col-md-3 mb-4 p-1" key={i}>
-                <div
-                  className={`${styles["menu-category_item"]} text-center position-relative`}
-                >
-                  {!x.isAvailable && (
+            {renderedMenus.length > 0 ? (
+              <>
+                {renderedMenus.map((x, i: number) => (
+                  <div className="col-md-3 mb-4 p-1" key={i}>
                     <div
-                      className="position-absolute d-flex align-items-center justify-content-center"
-                      style={{
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: "#a5a39d",
-                        opacity: 0.9,
-                        color: "red",
-                      }}
+                      className={`${styles["menu-category_item"]} text-center position-relative`}
                     >
-                      <span>This menu is unvailable</span>
-                    </div>
-                  )}
+                      {!x.isAvailable && (
+                        <div
+                          className="position-absolute d-flex align-items-center justify-content-center"
+                          style={{
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: "#a5a39d",
+                            opacity: 0.9,
+                            color: "red",
+                          }}
+                        >
+                          <span>Out of stock</span>
+                        </div>
+                      )}
 
-                  <img
-                    className={`${styles["menu-category_image"]}`}
-                    src={`http://localhost:8002/images/menus/${x.image}.jpg`}
-                    alt="menu"
-                  />
-                  <div
-                    className="d-flex flex-column justify-content-between align-items-center"
-                    style={{ minHeight: "112px" }}
-                  >
-                    <span className="d-block mb-1">{x.name}</span>
-                    <div>
-                      <span className={`${styles["menu-category_price"]}`}>
-                        {"Rp " + x.price}
-                      </span>
-                      <button
-                        onClick={() => {
-                          setSelectedItem({
-                            id: x.id,
-                            name: x.name,
-                            price: x.price,
-                            category: x.category,
-                            description: x.description,
-                            isAvailable: x.isAvailable,
-                            image: x.image,
-                          });
-                          setCartOder({
-                            ...cartOrder,
-                            image: x.image,
-                            qty: 1,
-                            name: x.name,
-                            idMenu: x.id,
-                            totalPrice: x.price,
-                            id: crypto.randomUUID(),
-                          });
-                        }}
-                        className={`${styles["menu-category_button-select"]}`}
+                      <img
+                        className={`${styles["menu-category_image"]}`}
+                        src={`http://localhost:8002/images/menus/${x.image}.jpg`}
+                        alt="menu"
+                      />
+                      <div
+                        className="d-flex flex-column justify-content-between align-items-center"
+                        style={{ minHeight: "112px" }}
                       >
-                        Select
-                      </button>
+                        <span className="d-block mb-1">{x.name}</span>
+                        <div>
+                          <span className={`${styles["menu-category_price"]}`}>
+                            {"Rp " + x.price}
+                          </span>
+                          <button
+                            onClick={() => {
+                              setSelectedItem({
+                                id: x.id,
+                                name: x.name,
+                                price: x.price,
+                                category: x.category,
+                                description: x.description,
+                                isAvailable: x.isAvailable,
+                                image: x.image,
+                              });
+                              setCartOder({
+                                ...cartOrder,
+                                image: x.image,
+                                qty: 1,
+                                name: x.name,
+                                idMenu: x.id,
+                                totalPrice: x.price,
+                                id: crypto.randomUUID(),
+                              });
+                            }}
+                            className={`${styles["menu-category_button-select"]}`}
+                          >
+                            Select
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
+              </>
+            ) : (
+              <span className="text-center">No menu availabled</span>
+            )}
           </div>
         </div>
       </div>
