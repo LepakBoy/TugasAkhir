@@ -18,8 +18,6 @@ export default function Cart() {
     return x + y.totalPrice;
   }, 0);
 
-  console.log(totalToPay, "to pay");
-
   useEffect(() => {
     setCartList(JSON.parse(localStorage.getItem("cart-order")) || []);
   }, []);
@@ -42,6 +40,7 @@ export default function Cart() {
               <>
                 {cartList.map((cart: any, index: number) => (
                   <CartItem
+                    image={cart.image}
                     totalPrice={cart.totalPrice}
                     idMenu={cart.id}
                     key={index}

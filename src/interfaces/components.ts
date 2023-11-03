@@ -29,6 +29,7 @@ export interface TopBarComponentProps {
 }
 
 export interface CartItemProps {
+  image: string;
   idMenu: string;
   menu: string;
   qty: number;

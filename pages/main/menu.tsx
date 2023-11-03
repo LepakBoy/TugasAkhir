@@ -1,7 +1,6 @@
 import TopBar from "../../src/components/TopBar";
 import { topBarMainMenuList } from "../../src/constant/topBar-menu";
 import styles from "../../styles/main-user.module.scss";
-import { allMenu } from "../../src/constant/all-menu";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
 import { useEffect, useState } from "react";
 import {
@@ -17,13 +16,28 @@ export default function MainUser() {
     ...defaultCartOrder,
     totalPrice: selectedItem.price,
   });
-  const [allMenuList, setAllMenuList] = useState(allMenu);
+
+  const [allMenus, setAllMenus] = useState([]);
+
+  const getAllMenu = async () => {
+    const req = await fetch("http://localhost:8002/api/menu", {
+      method: "GET",
+    });
+
+    const res = await req.json();
+    setAllMenus(res.data);
+    // return res.data;
+  };
+
+  useEffect(() => {
+    getAllMenu();
+  }, []);
 
   const [cartList, setCartList] = useState([]);
-  const selectedImage = selectedItem.name ? "french-fries.jpg" : "no-image.jpg";
 
   const handleFilterByCategory = (cat: string) => {
-    setAllMenuList(allMenu.filter((x) => x.category === cat));
+    // setAllMenuList(allMenu.filter((x) => x.category === cat));
+    setAllMenus(allMenus.filter((x) => x.category === cat.toUpperCase()));
   };
 
   const handleAddToCart = (total: number) => {
@@ -54,14 +68,14 @@ export default function MainUser() {
           className={`${styles["menu-detail_container"]} col-md-4 border-end`}
         >
           <div className={`${styles["menu-detail_wrapper"]}`}>
-            <img
-              className={`${styles["menu-detail_image"]} mx-auto mb-2`}
-              src={`../../../images/${selectedImage}`}
-              alt="detail-menu"
-            />
-            <span>{selectedItem.name || "No selected item"}</span>
-            {selectedItem.name && (
+            {selectedItem.id !== "" ? (
               <>
+                <img
+                  className={`${styles["menu-detail_image"]} mx-auto mb-2`}
+                  src={`http://localhost:8002/images/menus/${selectedItem.image}.jpg`}
+                  alt="detail-menu"
+                />
+
                 <p className={`${styles["menu-detail-parapgraph"]}`}>
                   {selectedItem.description}
                 </p>
@@ -141,6 +155,15 @@ export default function MainUser() {
                   />
                 </div>
               </>
+            ) : (
+              <>
+                <img
+                  className={`${styles["menu-detail_image"]} mx-auto mb-2`}
+                  src={`../../../images/no-image.jpg`}
+                  alt="detail-menu"
+                />
+                <span>{selectedItem.name || "No selected item"}</span>
+              </>
             )}
           </div>
         </div>
@@ -160,7 +183,7 @@ export default function MainUser() {
             ))}
           </div>
           <div className={`${styles["menu-category_wrapper"]} row`}>
-            {allMenuList.map((x, i: number) => (
+            {allMenus.map((x, i: number) => (
               <div className="col-md-3 mb-4 p-1" key={i}>
                 <div
                   className={`${styles["menu-category_item"]} text-center position-relative`}
@@ -184,7 +207,7 @@ export default function MainUser() {
 
                   <img
                     className={`${styles["menu-category_image"]}`}
-                    src="../../../images/burger.jpg"
+                    src={`http://localhost:8002/images/menus/${x.image}.jpg`}
                     alt="menu"
                   />
                   <div
@@ -205,9 +228,11 @@ export default function MainUser() {
                             category: x.category,
                             description: x.description,
                             isAvailable: x.isAvailable,
+                            image: x.image,
                           });
                           setCartOder({
                             ...cartOrder,
+                            image: x.image,
                             qty: 1,
                             name: x.name,
                             idMenu: x.id,

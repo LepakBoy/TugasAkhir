@@ -5,6 +5,7 @@ export interface MenuProps {
   category?: string | string[];
   description?: string;
   isAvailable: boolean;
+  image: string;
 }
 
 export const defaultMenu: MenuProps = {
@@ -14,6 +15,7 @@ export const defaultMenu: MenuProps = {
   price: 0,
   description: "",
   isAvailable: true,
+  image: "",
 };
 
 export interface AddToCardOrderProps {
@@ -22,6 +24,7 @@ export interface AddToCardOrderProps {
   name: string;
   qty: number;
   totalPrice: number;
+  image: string;
 }
 
 export const defaultCartOrder: AddToCardOrderProps = {
@@ -29,5 +32,6 @@ export const defaultCartOrder: AddToCardOrderProps = {
   idMenu: "",
   name: "",
   qty: 1,
+  image: "",
   totalPrice: 0,
 };
