@@ -1,16 +1,35 @@
 import TopBar from "../../src/components/TopBar";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
 import styleUser from "../../styles/main-user.module.scss";
-import { allMenu } from "../../src/constant/all-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuProps, defaultMenu } from "../../src/interfaces/menus";
 
 export default function OrderHistory() {
-  const [allMenuList, setAllMenuList] = useState(allMenu);
+  const [allMenus, setAllMenus] = useState([]);
   const [selectedItem, setSelectedItem] = useState<MenuProps>(defaultMenu);
-  const selectedImage = selectedItem.name ? "french-fries.jpg" : "no-image.jpg";
 
   const orderList = ["aa", "bb", "cc", "dd", "ee", "ff"];
+
+  const getAllMenu = async () => {
+    // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
+    const req = await fetch("http://localhost:8002/api/menu", {
+      method: "GET",
+    });
+
+    await req
+      .json()
+      .then((res) => {
+        setAllMenus(res.data);
+      })
+      .catch((err) => {
+        setAllMenus([]);
+        console.log(err, "erro");
+      });
+  };
+
+  useEffect(() => {
+    getAllMenu();
+  }, []);
 
   return (
     <>
@@ -20,14 +39,14 @@ export default function OrderHistory() {
           className={`${styleUser["menu-detail_container"]} col-md-4 border-end`}
         >
           <div className={`${styleUser["menu-detail_wrapper"]}`}>
-            <img
-              className={`${styleUser["menu-detail_image"]} mx-auto mb-2`}
-              src={`../../../images/${selectedImage}`}
-              alt="detail-menu"
-            />
-            <span>{selectedItem.name || "No selected item"}</span>
-            {selectedItem.name && (
+            {selectedItem.id !== "" ? (
               <>
+                <img
+                  className={`${styleUser["menu-detail_image"]} mx-auto mb-2`}
+                  src={`http://localhost:8002/images/menus/${selectedItem.image}.jpg`}
+                  alt="detail-menu"
+                />
+                <span>{selectedItem.name || "No selected item"}</span>
                 <p className={`${styleUser["menu-detail-parapgraph"]}`}>
                   {`This menu is ${
                     selectedItem.isAvailable ? "Available" : "Unavailable"
@@ -35,9 +54,6 @@ export default function OrderHistory() {
                 </p>
                 <div className="mt-3">
                   <ButtonPrimaryComponent
-                    // onClick={() =>
-                    //   handleAddToCart(selectedItem.price * cartOrder.qty)
-                    // }
                     label={`Change into ${
                       selectedItem.isAvailable ? "Unvailable" : "Available"
                     }`}
@@ -51,6 +67,15 @@ export default function OrderHistory() {
                   />
                 </div>
               </>
+            ) : (
+              <>
+                <img
+                  className={`${styleUser["menu-detail_image"]} mx-auto mb-2`}
+                  src={`../../../images/no-image.jpg`}
+                  alt="detail-menu"
+                />
+                <span>{selectedItem.name || "No selected item"}</span>
+              </>
             )}
           </div>
         </div>
@@ -59,7 +84,7 @@ export default function OrderHistory() {
             className={`${styleUser["menu-category_list"]} p-3 d-flex justify-content-between`}
           ></div>
           <div className={`${styleUser["menu-category_wrapper"]} row`}>
-            {allMenuList.map((x, i: number) => (
+            {allMenus.map((x, i: number) => (
               <div className="col-md-3 mb-4 p-1" key={i}>
                 <div
                   className={`${styleUser["menu-category_item"]} text-center position-relative`}
@@ -78,7 +103,7 @@ export default function OrderHistory() {
                   </span>
                   <img
                     className={`${styleUser["menu-category_image"]}`}
-                    src="../../../images/burger.jpg"
+                    src={`http://localhost:8002/images/menus/${x.image}.jpg`}
                     alt="menu"
                   />
                   <div
@@ -96,6 +121,7 @@ export default function OrderHistory() {
                             category: x.category,
                             description: x.description,
                             isAvailable: x.isAvailable,
+                            image: x.image,
                           })
                         }
                         className={`${styleUser["menu-category_button-select"]}`}

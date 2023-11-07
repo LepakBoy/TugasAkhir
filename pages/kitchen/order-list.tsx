@@ -49,19 +49,6 @@ export default function MainKitchen() {
     return (
       <>
         <div className="d-flex justify-content-evenly align-items-center">
-          {/*  not sure for reject order flow about refund balance ???  */}
-          {/* <ButtonPrimaryComponent
-        label="Reject"
-        onClick={() => handleInteractionOrder("REJECT")}
-        type="button"
-        backGroundColor="#cfcfcf"
-        textColor="#6e6464"
-        style={{
-          width: "168px",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      /> */}
           <ButtonPrimaryComponent
             label={`${
               status === "IN PROGRESS"

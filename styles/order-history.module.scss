@@ -1,0 +1,48 @@
+.order-history-item {
+  padding: 10px;
+  width: 520px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #ffba33;
+  border-radius: 3px;
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.order-history_container {
+  height: 90vh;
+}
+
+.invoice-container {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  background-color: red;
+}
+
+.invoice-area {
+  padding: 16px;
+  min-height: 620px;
+  width: 420px;
+  box-shadow: 0 0 12px rgba(148, 148, 148, 0.671);
+  border-radius: 4px;
+  background-color: rgba(247, 247, 247, 0.747);
+}
+
+.invoice-title {
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.invoice-total {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: end;
+  margin-top: 18px;
+  margin-bottom: 12px;
+}

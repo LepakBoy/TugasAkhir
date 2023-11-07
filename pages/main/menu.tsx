@@ -20,7 +20,6 @@ export default function MainUser() {
   const [allMenus, setAllMenus] = useState([]);
   const [renderedMenus, setRenderedMenus] = useState(allMenus);
   const [cartList, setCartList] = useState([]);
-  console.log(renderedMenus, "renrede");
 
   const getAllMenu = async () => {
     // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
@@ -34,6 +33,7 @@ export default function MainUser() {
         setAllMenus(res.data);
       })
       .catch((err) => {
+        setAllMenus([]);
         console.log(err, "erro");
       });
   };
