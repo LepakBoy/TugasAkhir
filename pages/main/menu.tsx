@@ -2,7 +2,7 @@ import TopBar from "../../src/components/TopBar";
 import { topBarMainMenuList } from "../../src/constant/topBar-menu";
 import styles from "../../styles/main-user.module.scss";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   AddToCardOrderProps,
   MenuProps,
@@ -21,8 +21,7 @@ export default function MainUser() {
   const [renderedMenus, setRenderedMenus] = useState(allMenus);
   const [cartList, setCartList] = useState([]);
 
-  const getAllMenu = async () => {
-    // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
+  const getAllMenu = useCallback(async () => {
     const req = await fetch("http://localhost:8002/api/menu", {
       method: "GET",
     });
@@ -36,7 +35,7 @@ export default function MainUser() {
         setAllMenus([]);
         console.log(err, "erro");
       });
-  };
+  }, []);
 
   const handleFilterByCategory = (cat: string) => {
     if (cat === "FORYOU") {
