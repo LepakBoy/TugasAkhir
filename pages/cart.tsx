@@ -74,6 +74,13 @@ export default function Cart() {
           localStorage.removeItem("cart-order");
           setCartList([]);
         });
+      } else if (res.message === "failed") {
+        Swal.fire({
+          title: "Failed",
+          text: "Canteen is closed, you cannot make an order for the moment",
+          icon: "error",
+          timer: 5000,
+        });
       }
     });
   };
