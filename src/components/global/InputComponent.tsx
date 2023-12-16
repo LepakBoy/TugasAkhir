@@ -3,7 +3,7 @@ import styles from "../../../styles/input.module.scss";
 
 export default function InputComponent(props: InputComponentsProps) {
   return (
-    <>
+    <div style={props.style}>
       {props.label && (
         <label
           className={styles["label-input_component"]}
@@ -25,6 +25,6 @@ export default function InputComponent(props: InputComponentsProps) {
           {props.errorMessage}
         </div>
       )}
-    </>
+    </div>
   );
 }

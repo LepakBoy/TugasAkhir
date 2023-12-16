@@ -1,19 +1,19 @@
-import TopBar from "../../src/components/TopBar";
-import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
-import styleUser from "../../styles/main-user.module.scss";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import TopBar from "../../src/components/TopBar";
+import styleUser from "../../styles/main-user.module.scss";
 import { MenuProps, defaultMenu } from "../../src/interfaces/menus";
-import Swal from "sweetalert2";
+import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
+import InputComponent from "../../src/components/global/InputComponent";
 
-export default function OrderHistory() {
+export default function UpdateMenu() {
+  const router = useRouter();
   const [allMenus, setAllMenus] = useState([]);
   const [selectedItem, setSelectedItem] = useState<MenuProps>(defaultMenu);
 
-  const orderList = ["aa", "bb", "cc", "dd", "ee", "ff"];
-
   const getAllMenu = async () => {
     // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
-    const req = await fetch("http://localhost:8002/api/menu/menuAlgoritma", {
+    const req = await fetch("http://localhost:8002/api/menu", {
       method: "GET",
     });
 
@@ -28,32 +28,8 @@ export default function OrderHistory() {
       });
   };
 
-  const handleUpdateAvailibilty = async (menuId: string) => {
-    const req = await fetch(
-      "http://localhost:8002/api/menu/update-availabilty",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: menuId }),
-      }
-    );
-
-    await req.json().then((res) => {
-      if (res.message === "success") {
-        Swal.fire({
-          title: "Success",
-          text: "Status updated",
-          icon: "success",
-          timer: 5000,
-        }).then((res) => {
-          getAllMenu();
-        });
-        setSelectedItem(defaultMenu);
-      }
-    });
+  const handleUpdateData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedItem({ ...selectedItem, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -62,52 +38,81 @@ export default function OrderHistory() {
 
   return (
     <>
-      <TopBar option head role="KITCHEN" ordeListNumber={orderList.length} />
+      <TopBar option head role="ADMIN" />
       <div className="row w-100 border-top">
         <div
           className={`${styleUser["menu-detail_container"]} col-md-4 border-end`}
+          style={{ overflowY: "auto", height: "90vh" }}
         >
-          <div className={`${styleUser["menu-detail_wrapper"]}`}>
+          <>
             {selectedItem.id !== "" ? (
-              <>
+              <div style={{ width: "228px" }}>
                 <img
-                  className={`${styleUser["menu-detail_image"]} mx-auto mb-2`}
+                  className={`${styleUser["menu-detail_image"]} mx-auto mb-3`}
                   src={`http://localhost:8002/images/menus/${selectedItem.image}.jpg`}
                   alt="detail-menu"
                 />
-                <span>{selectedItem.name || "No selected item"}</span>
-                <p className={`${styleUser["menu-detail-parapgraph"]}`}>
-                  {`This menu is ${
-                    selectedItem.isAvailable ? "Available" : "Unavailable"
-                  }`}
-                </p>
-                <div className="mt-3">
+                <div className="mx-0 pb-5">
+                  <InputComponent
+                    type="text"
+                    name="name"
+                    label="Name"
+                    value={selectedItem.name}
+                    onChange={(e) => handleUpdateData(e)}
+                  />
+                  <InputComponent
+                    type="text"
+                    style={{ marginTop: "12px" }}
+                    name="price"
+                    label="Price"
+                    value={selectedItem.price.toString()}
+                    onChange={(e) => handleUpdateData(e)}
+                  />
+                  <div style={{ marginTop: "12px" }}>
+                    <label htmlFor="">Description</label>
+                    <textarea
+                      name="description"
+                      id=""
+                      onChange={(e) =>
+                        setSelectedItem({
+                          ...selectedItem,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                      style={{ width: "228px" }}
+                      cols={30}
+                      rows={4}
+                      value={selectedItem.description}
+                    />
+                  </div>
                   <ButtonPrimaryComponent
-                    onClick={() => handleUpdateAvailibilty(selectedItem.id)}
-                    label={`Change into ${
-                      selectedItem.isAvailable ? "Unvailable" : "Available"
-                    }`}
+                    label="Update data"
                     type="button"
-                    style={{
-                      width: "258px",
-                      marginTop: "8px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                    }}
+                    style={{ width: "100%", marginTop: "22px" }}
+                  />
+                  <ButtonPrimaryComponent
+                    label="Back to home"
+                    backGroundColor="#cfcfcf"
+                    textColor="#6e6464"
+                    type="button"
+                    style={{ width: "100%", marginTop: "8px" }}
+                    onClick={() => router.push("/admin")}
                   />
                 </div>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <img
                   className={`${styleUser["menu-detail_image"]} mx-auto mb-2`}
                   src={`../../../images/no-image.jpg`}
                   alt="detail-menu"
                 />
-                <span>{selectedItem.name || "No selected item"}</span>
-              </>
+                <span className="text-center">
+                  {selectedItem.name || "No selected item"}
+                </span>
+              </div>
             )}
-          </div>
+          </>
         </div>
         <div className="col-md-8">
           <div
@@ -119,18 +124,6 @@ export default function OrderHistory() {
                 <div
                   className={`${styleUser["menu-category_item"]} text-center position-relative`}
                 >
-                  <span
-                    className="position-absolute"
-                    style={{
-                      top: "10px",
-                      right: "10px",
-                      backgroundColor: "#cfcfcf",
-                      padding: "4px",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    {x.isAvailable ? "Available" : "Unvailable"}
-                  </span>
                   <img
                     className={`${styleUser["menu-category_image"]}`}
                     src={`http://localhost:8002/images/menus/${x.image}.jpg`}
@@ -154,9 +147,10 @@ export default function OrderHistory() {
                             image: x.image,
                           })
                         }
+                        // onClick={() => router.push(`/update-menu/${selectedItem.id}`)}
                         className={`${styleUser["menu-category_button-select"]}`}
                       >
-                        Select
+                        Update
                       </button>
                     </div>
                   </div>

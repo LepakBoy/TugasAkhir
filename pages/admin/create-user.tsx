@@ -4,34 +4,71 @@ import ButtonComponent from "../../src/components/global/ButtonPrimaryComponent"
 import cartStyles from "../../styles/cart.module.scss";
 import stylesLogin from "../../styles/login-page.module.scss";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import { object, string, ref } from "yup";
 import InputComponent from "../../src/components/global/InputComponent";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
+import Swal from "sweetalert2";
 
 interface LoginFormProps {
+  username: string;
   email: string;
   password: string;
+  confirmPassword: string;
+  role: string;
 }
+
+const roleOption = ["USER", "KITCHEN"];
 
 export default function CreateUser() {
   const router = useRouter();
 
-  const schema = Yup.object().shape({
-    email: Yup.string()
-      .required("Insert your email")
-      .email("Please insert valid email"),
-    password: Yup.string().required("Insert your password"),
+  const schema = object().shape({
+    email: string().required("Insert email").email("Please insert valid email"),
+    username: string().required("Insert username"),
+    role: string().required("Inser role"),
+    password: string().required("Insert password"),
+    confirmPassword: string()
+      .required("Please fill confirm password")
+      .oneOf([ref("password")], "Password does not match"),
   });
 
-  const handleLogin = () => {
-    router.push("/main/user");
+  const handleCreateUser = async () => {
+    const req = await fetch("http://localhost:8002/api/auth/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formik.values),
+    });
+
+    await req.json().then((res) => {
+      if (res.message === "User registered successfully!")
+        Swal.fire({
+          title: "Success",
+          text: "User Created!",
+          icon: "success",
+          timer: 5000,
+        }).then((res) => {
+          formik.setValues(formik.initialValues);
+        });
+    });
+    // router.push("/main/user");
   };
 
   const formik = useFormik<LoginFormProps>({
-    initialValues: { email: "", password: "" },
-    onSubmit: handleLogin,
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      role: "USER",
+    },
+    onSubmit: handleCreateUser,
     validationSchema: schema,
   });
+
+  console.log(formik.values, "value formik");
 
   return (
     <>
@@ -49,6 +86,30 @@ export default function CreateUser() {
             </span>
             <div className={`${stylesLogin["login-form_wrapper"]} mt-4`}>
               <form onSubmit={formik.handleSubmit} noValidate>
+                <div className="mb-3">
+                  <InputComponent
+                    placeholder="Input username"
+                    type="text"
+                    name="username"
+                    label="User Name"
+                    errorMessage={formik.errors.username}
+                    value={formik.values.username || ""}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="RoleUser">Role</label>
+                  <select
+                    onChange={formik.handleChange}
+                    name="role"
+                    id="RolseUser"
+                    style={{ height: "38px", width: "100%" }}
+                  >
+                    {roleOption.map((x) => (
+                      <option value={x.toUpperCase()}>{x}</option>
+                    ))}
+                  </select>
+                </div>
                 <div className="mb-3">
                   <InputComponent
                     placeholder="Input email"
@@ -75,10 +136,10 @@ export default function CreateUser() {
                   <InputComponent
                     placeholder="Confirm password"
                     type="password"
-                    name="password"
+                    name="confirmPassword"
                     label="Confirm password"
-                    value={formik.values.password || ""}
-                    errorMessage={formik.errors.password}
+                    value={formik.values.confirmPassword || ""}
+                    errorMessage={formik.errors.confirmPassword}
                     onChange={formik.handleChange}
                   />
                 </div>

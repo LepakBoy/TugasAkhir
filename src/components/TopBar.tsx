@@ -5,6 +5,7 @@ import { VscAccount } from "react-icons/vsc";
 import { FaBowlFood } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import bootstrap from "bootstrap";
 
 export default function TopBar(props: TopBarComponentProps) {
   const router = useRouter();
@@ -21,7 +22,12 @@ export default function TopBar(props: TopBarComponentProps) {
 
   // not fixed
   useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage && cartList.length)
+    if (
+      typeof window !== "undefined" &&
+      window.localStorage &&
+      localStorage.getItem("cart-oder") &&
+      cartList.length
+    )
       localStorage.setItem("cart-order", JSON.stringify(cartList));
   }, [cartList]);
 
@@ -117,7 +123,14 @@ export default function TopBar(props: TopBarComponentProps) {
               )}
               {props.role === "USER" && <BiMessageDetail fontSize={24} />}
             </button>
-            <button className="p-1 mx-3 bg-transparent border-0">
+            <button
+              type="button"
+              className="btn p-1 mx-3 bg-transparent border-0"
+              data-bs-toggle="popover"
+              data-bs-placement="bottom"
+              data-bs-content="Bottom popover"
+              data-bs-container="body"
+            >
               <VscAccount fontSize={24} />
             </button>{" "}
           </div>

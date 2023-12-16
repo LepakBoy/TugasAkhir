@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopBar from "../../src/components/TopBar";
 import AccordionComponent from "../../src/components/global/AccordionComponent";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
@@ -6,8 +6,22 @@ import stylesCart from "../../styles/cart.module.scss";
 import { dummyListOrder } from "../../src/constant/all-menu";
 
 export default function MainKitchen() {
-  const [listOrder, setListOrder] = useState(dummyListOrder);
+  const [listOrder, setListOrder] = useState([]);
   const orderList = ["aa", "bb", "cc", "dd", "ee", "ff"];
+
+  const getAllOrder = async () => {
+    const req = await fetch("http://localhost:8002/api/order", {
+      method: "GET",
+    });
+    await req.json().then((res) => {
+      console.log(res, "res get order");
+      setListOrder(res.data);
+    });
+  };
+
+  useEffect(() => {
+    getAllOrder();
+  }, []);
 
   const handleInteractionOrder = (
     status: "ACCEPTED" | "FINISHED" | "IN PROGRESS",

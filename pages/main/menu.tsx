@@ -22,7 +22,7 @@ export default function MainUser() {
   const [cartList, setCartList] = useState([]);
 
   const getAllMenu = useCallback(async () => {
-    const req = await fetch("http://localhost:8002/api/menu", {
+    const req = await fetch("http://localhost:8002/api/menu/menuAlgoritma", {
       method: "GET",
     });
 
@@ -46,7 +46,7 @@ export default function MainUser() {
   };
 
   const handleAddToCart = (total: number) => {
-    if (cartOrder.idMenu && selectedItem.id) {
+    if (cartOrder.menuId && selectedItem.id) {
       setCartOder({
         ...cartOrder,
         totalPrice: total,
@@ -253,7 +253,7 @@ export default function MainUser() {
                                 image: x.image,
                                 qty: 1,
                                 name: x.name,
-                                idMenu: x.id,
+                                menuId: x.id,
                                 totalPrice: x.price,
                                 id: crypto.randomUUID(),
                               });

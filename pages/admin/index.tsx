@@ -30,6 +30,19 @@ export default function AdminPage() {
                 type="button"
                 label="Create user"
               />
+              <ButtonComponent
+                onClick={() => router.push("/admin/update-menu")}
+                style={{
+                  width: "162px",
+                  height: "48px",
+                  fontSize: "18px",
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                  marginTop: "22px",
+                }}
+                type="button"
+                label="Update menu"
+              />
             </div>
           </div>
         </div>

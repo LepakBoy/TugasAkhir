@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export interface InputComponentsProps {
   type: string;
@@ -9,6 +9,7 @@ export interface InputComponentsProps {
   placeholder?: string;
   errorMessage?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  style?: CSSProperties
 }
 
 export interface ButtonComponentProps {

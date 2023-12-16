@@ -20,7 +20,7 @@ export const defaultMenu: MenuProps = {
 
 export interface AddToCardOrderProps {
   id: string;
-  idMenu: string;
+  menuId: string;
   name: string;
   qty: number;
   totalPrice: number;
@@ -29,7 +29,7 @@ export interface AddToCardOrderProps {
 
 export const defaultCartOrder: AddToCardOrderProps = {
   id: "",
-  idMenu: "",
+  menuId: "",
   name: "",
   qty: 1,
   image: "",

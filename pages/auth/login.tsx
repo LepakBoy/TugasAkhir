@@ -18,14 +18,40 @@ export default function Login() {
       .email("Please insert valid email"),
     password: Yup.string().required("Insert your password"),
   });
-  const handleLogin = () => {
-    router.push("/main/user");
+
+  const handleLogin = async () => {
+    const req = await fetch("http://localhost:8002/api/auth/signin", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formik.values),
+    });
+    await req.json().then((res) => {
+      if (res.message === "Success") {
+        localStorage.setItem("userId", res.id);
+        localStorage.setItem("userRole", res.role);
+        if (res.role === "USER") {
+          router.push("/main/menu");
+        } else if (res.role === "ADMIN") {
+          router.push("/admin");
+        } else {
+          router.push("/kitchen");
+        }
+      } else {
+        alert("failed, wrong user");
+      }
+    });
+    // router.push("/main/user");
   };
+
   const formik = useFormik<LoginFormProps>({
     initialValues: { email: "", password: "" },
     onSubmit: handleLogin,
     validationSchema: schema,
   });
+  console.log(formik, "value formik");
 
   return (
     <div className={styles["wrapper"]}>
