@@ -68,8 +68,6 @@ export default function CreateUser() {
     validationSchema: schema,
   });
 
-  console.log(formik.values, "value formik");
-
   return (
     <>
       <TopBar option head role="ADMIN" />
