@@ -244,7 +244,10 @@ export default function TopBar(props: TopBarComponentProps) {
               <button
                 type="button"
                 className="btn btn-danger"
-                onClick={() => router.push("/auth/login")}
+                onClick={() => {
+                  localStorage.setItem("userId", "");
+                  router.push("/auth/login");
+                }}
                 data-bs-dismiss="modal"
               >
                 Logout

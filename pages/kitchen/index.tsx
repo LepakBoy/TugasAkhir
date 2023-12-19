@@ -3,10 +3,9 @@ import cartStyles from "../../styles/cart.module.scss";
 
 export default function Kitchen() {
   // order list that has "NEW" | "PLACED" status => filtered array
-  const orderList = ["aa", "bb", "cc", "dd", "ee", "ff"];
   return (
     <>
-      <TopBar option head role="KITCHEN" ordeListNumber={orderList.length} />
+      <TopBar option head role="KITCHEN" />
       <div className="row w-100 border-top" style={{ height: "100%" }}>
         <div
           className={`${cartStyles["cart-list_container"]} text-center align-items-center d-flex col-md-6 mx-auto border-end border-start`}

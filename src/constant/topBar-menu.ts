@@ -12,6 +12,10 @@ export const topBarMainMenuList = [
     text: "Foods",
   },
   {
+    value: "SNACK",
+    text: "Snacks",
+  },
+  {
     value: "DRINKS",
     text: "Beverages",
   },

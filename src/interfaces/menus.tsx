@@ -2,10 +2,11 @@ export interface MenuProps {
   id: string;
   price: number;
   name: string;
-  category?: string | string[];
-  description?: string;
+  category: string;
+  description: string;
   isAvailable: boolean;
   image: string;
+  servingTime: number;
 }
 
 export const defaultMenu: MenuProps = {
@@ -16,6 +17,7 @@ export const defaultMenu: MenuProps = {
   description: "",
   isAvailable: true,
   image: "",
+  servingTime: 0,
 };
 
 export interface AddToCardOrderProps {

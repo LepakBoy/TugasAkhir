@@ -5,11 +5,13 @@ import styleUser from "../../styles/main-user.module.scss";
 import { MenuProps, defaultMenu } from "../../src/interfaces/menus";
 import ButtonPrimaryComponent from "../../src/components/global/ButtonPrimaryComponent";
 import InputComponent from "../../src/components/global/InputComponent";
+import Swal from "sweetalert2";
 
 export default function UpdateMenu() {
   const router = useRouter();
   const [allMenus, setAllMenus] = useState([]);
   const [selectedItem, setSelectedItem] = useState<MenuProps>(defaultMenu);
+  const roleOption = ["FOOD", "DRINKS", "SNACK", "ADDON"];
 
   const getAllMenu = async () => {
     // ####### ERROR HANDLING IF SERVER IS NOT AVAILABLE ##############
@@ -28,8 +30,45 @@ export default function UpdateMenu() {
       });
   };
 
-  const handleUpdateData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpdateData = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedItem({ ...selectedItem, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdateMenu = async () => {
+    const req = await fetch("http://localhost:8002/api/menu/update-menu", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedItem),
+    });
+    const { name, price, description, servingTime } = selectedItem;
+    if (!name || !price || price <= 0 || !description || !servingTime) {
+      Swal.fire({
+        title: "Oops..",
+        text: "Please fill all field",
+        icon: "error",
+      });
+    } else {
+      await req.json().then((res) => {
+        if (res.message === "success") {
+          Swal.fire({
+            title: "Success",
+            text: "Menu has been updated",
+            icon: "success",
+            timer: 5000,
+          }).then((after) => {
+            getAllMenu();
+            setSelectedItem(defaultMenu);
+          });
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -59,14 +98,55 @@ export default function UpdateMenu() {
                     label="Name"
                     value={selectedItem.name}
                     onChange={(e) => handleUpdateData(e)}
+                    // onChange={formik.handleChange}
+                    // value={formik.values.name}
+                    errorMessage={
+                      !selectedItem.name && "Please input this field"
+                    }
                   />
                   <InputComponent
-                    type="text"
+                    type="number"
                     style={{ marginTop: "12px" }}
                     name="price"
                     label="Price"
                     value={selectedItem.price.toString()}
                     onChange={(e) => handleUpdateData(e)}
+                    // onChange={formik.handleChange}
+                    // value={formik.values.price.toString()}
+                    errorMessage={
+                      !selectedItem.price && "Please input this field"
+                    }
+                  />
+                  <div className="my-3">
+                    <label htmlFor="categoryMenu">Category</label>
+                    <select
+                      onChange={(e) => handleUpdateData(e)}
+                      name="category"
+                      id="categoryMenu"
+                      style={{ height: "38px", width: "100%" }}
+                    >
+                      {roleOption.map((x) => (
+                        <option
+                          value={x.toUpperCase()}
+                          selected={x === selectedItem.category}
+                        >
+                          {x}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <InputComponent
+                    type="number"
+                    style={{ marginTop: "12px" }}
+                    name="servingTime"
+                    label="Serving time"
+                    value={selectedItem.servingTime.toString()}
+                    onChange={(e) => handleUpdateData(e)}
+                    // onChange={formik.handleChange}
+                    // value={formik.values.servingTime.toString()}
+                    errorMessage={
+                      !selectedItem.servingTime && "Please input this field"
+                    }
                   />
                   <div style={{ marginTop: "12px" }}>
                     <label htmlFor="">Description</label>
@@ -83,9 +163,12 @@ export default function UpdateMenu() {
                       cols={30}
                       rows={4}
                       value={selectedItem.description}
+                      // onChange={formik.handleChange}
+                      // value={formik.values.name}
                     />
                   </div>
                   <ButtonPrimaryComponent
+                    onClick={handleUpdateMenu}
                     label="Update data"
                     type="button"
                     style={{ width: "100%", marginTop: "22px" }}
@@ -145,6 +228,7 @@ export default function UpdateMenu() {
                             description: x.description,
                             isAvailable: x.isAvailable,
                             image: x.image,
+                            servingTime: x.servingTime,
                           })
                         }
                         // onClick={() => router.push(`/update-menu/${selectedItem.id}`)}

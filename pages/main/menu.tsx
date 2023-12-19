@@ -247,6 +247,7 @@ export default function MainUser() {
                                 description: x.description,
                                 isAvailable: x.isAvailable,
                                 image: x.image,
+                                servingTime: x.servingTime,
                               });
                               setCartOder({
                                 ...cartOrder,
